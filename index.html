@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>AI Art Generator</title>
+    <!-- <script src="./desgin.c"></script> -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,400;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+      body {
+        font-family: sans-serif;
+        text-align: center;
+        /* color: white; */
+        /* padding-bottom: 10px; */
+        padding-top: 10px;
+        height: auto;
+        width: 100%;
+        background: rgb(13, 13, 14);
+      }
+      #art_image{
+        width: 60vh;
+        height: 60vh;
+        object-fit: cover;
+        border-radius: 10px;
+        position: relative;
+        top: 0;
+        left: 0;
+      }
+      .art_image{
+        width: 65vh;
+        height: 45vh;
+        object-fit: cover;
+        border-radius: 10px;
+        position: relative;
+
+      }
+      #art_image{
+        width: 60vh;
+        height: 40vh;
+        content: "Download";
+      }
+     
+      #image{
+        width: 100%;
+        height: 100% ;
+        border-radius: 10px;
+        z-index: 1;
+      }
+      #loading{
+        border: 7px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 7px solid #3498db;
+        width: 53px;
+        height: 50px;
+        -webkit-animation: spin 2s linear infinite;
+        animation: spin 2s linear infinite;
+        z-index: 2;
+        position: absolute;
+        top: 44%;
+        left: 44%;
+        visibility: hidden;
+      }
+      #loading.display{
+        visibility: visible;
+
+      }
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      .inputs{
+        background: rgb(13, 13, 14);
+        color: rgb(13, 13, 14);
+        box-shadow: 0px 0px 5px white;
+      }
+      .btn{
+        background-color: (#3bb4f2);
+        border: 1px solid whitesmoke;
+        box-shadow: 0px 0px 4px white;
+
+      }
+      .btn:hover{
+        background-color: white;
+        color: rgb(13, 13, 14);
+
+      }
+      .heading{
+        font-family: 'Roboto', sans-serif;
+        text-transform: capitalize;
+        border-radius: 10px;
+        margin: 0 10px;
+        display: flex;
+        justify-content: center;
+      }
+      .heading p {
+        width: fit-content;
+        display: flex;
+        padding: 5px;
+        border-radius: 10px;
+      }
+      .image_container{
+        border: 1px solid white;
+        position: relative;
+        height: 55vh;
+        width: 50vw;
+        border-radius: 10px;
+        z-index: -1;
+      }
+      .setting{
+        width: 100%;
+        display: flex;
+        justify-content: end;
+        align-items: center;  
+        padding:0px 12px;
+      }
+      .icon{
+        display: flex;
+        border: 2px solid white;
+        cursor: pointer;
+      }
+      .sidesetting{
+        position: absolute;
+        top: 13vh;
+        right: 0;
+        height: calc(100% - 13vh);
+        display: none;
+        flex-direction: column;
+        background-color: rgb(13, 13, 14);
+        /* background: linear-gradient(90deg, hsla(236, 100%, 8%, 1) 0%, hsla(211, 100%, 28%, 1) 100%);
+        background: -moz-linear-gradient(90deg, hsla(236, 100%, 8%, 1) 0%, hsla(211, 100%, 28%, 1) 100%);
+        background: -webkit-linear-gradient(90deg, hsla(236, 100%, 8%, 1) 0%, hsla(211, 100%, 28%, 1) 100%);
+        filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#000328", endColorstr="#00458E", GradientType=1 ); */
+        border-radius: 20px 0px 0px 20px;
+        padding: 10px 50px;
+      }
+      .display{
+        display: flex;
+        position: absolute;
+        top: 13vh;
+        right: 0;
+        height:calc(100% - 13vh);
+        flex-direction: column;
+        background-color: rgb(13, 13, 14);
+        /* background: linear-gradient(90deg, hsla(236, 100%, 8%, 1) 0%, hsla(211, 100%, 28%, 1) 100%);
+        background: -moz-linear-gradient(90deg, hsla(236, 100%, 8%, 1) 0%, hsla(211, 100%, 28%, 1) 100%);
+        background: -webkit-linear-gradient(90deg, hsla(236, 100%, 8%, 1) 0%, hsla(211, 100%, 28%, 1) 100%);
+        filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#000328", endColorstr="#00458E", GradientType=1 ); */
+        border-radius: 20px 0px 0px 20px;
+        padding: 20px 10px;
+        border: 1px solid white;
+
+      }
+      .api_setting{
+
+        /* background: linear-gradient(90deg, hsla(236, 100%, 8%, 1) 0%, hsla(211, 100%, 28%, 1) 100%);
+        background: -moz-linear-gradient(90deg, hsla(236, 100%, 8%, 1) 0%, hsla(211, 100%, 28%, 1) 100%);
+        background: -webkit-linear-gradient(90deg, hsla(236, 100%, 8%, 1) 0%, hsla(211, 100%, 28%, 1) 100%);
+        filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#000328", endColorstr="#00458E", GradientType=1 ); */
+        border-radius: 10px;
+        padding: 0 10px;
+        margin-bottom: 10px;
+      }
+      .hide{
+        display: none;
+      }
+      .show{
+        display: flex;
+      }
+      #errors{
+        display: flex;
+        /* margin: auto; */
+        width: 300px;
+        background: linear-gradient(90deg, hsla(236, 100%, 8%, 1) 0%, hsla(211, 100%, 28%, 1) 100%);
+        background: -moz-linear-gradient(90deg, hsla(236, 100%, 8%, 1) 0%, hsla(211, 100%, 28%, 1) 100%);
+        background: -webkit-linear-gradient(90deg, hsla(236, 100%, 8%, 1) 0%, hsla(211, 100%, 28%, 1) 100%);
+        filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#000328", endColorstr="#00458E", GradientType=1 );
+        z-index: 1;
+        color: rgb(240, 50, 50);
+        padding: 10px;
+        border-radius: 10px;
+        position: absolute;
+        right: 0px;
+        top: 0px;
+        /* border:1px solid white; */
+      }
+      #errors.show_errrors{
+        display: flex;
+       
+      }
+      .close_btn{
+        width: 36px;
+        height: 30px;
+      }
+      .close_btn::before{
+        content: "|";
+        font-size: 25px;
+        transform: rotate(100deg);
+        position: absolute;
+        top: 2.5px;
+        left: 17px;
+      }
+    </style>
+</head>
+<body>
+    <div id="main">
+    <div  id="errors">slakdjf</div>
+    <div class="text-4xl py-3 text-white heading">
+      <p class="border border-white shadow-md shadow-white">Create Amazing Artworks with Artificial Intelligence.</p>
+    </div> 
+    
+    <div class="setting ">
+      <div class="text-white w-22 h-22 shadow-md px-1 rounded-md cursor-pointer relative"  style="transform: scale(1.5); transform: rotate(90deg); font-size: 30px;"  id="setting">
+        |||
+      </div>
+      <div class="sidesetting w-1/4 border transition-all delay-150 border-white" id="show">
+        <div class="flex justify-between api_setting items-center">
+        <h2 class="text-white text-lg font-bold py-3">CHANGE API KEY</h2>
+        <div class="text-white close_btn px-1 cursor-pointer rounded-md text-sm" style="transform: scale(1.5); transform: rotate(40deg); font-size: 25px;" id="close">|</div>
+        </div>
+        <div class="flex flex-col gap-10 p-10">
+          <div class="flex flex-col">
+        <label for="prompt" class="text-left text-gray-100 text-md pb-2">API KEY :</label>
+      <input id="apikey" class="flex inputs  bg-gray-300  py-1 rounded-md pl-2 w-full focus:outline-none" placeholder="Enter api key" type="text" >
+          </div>
+      <button id="apibtn" class="flex btn justify-center rounded-md py-1 text-white w-full font-bold   " >Start</button>  
+    </div>
+      </div>
+
+    </div>
+    <div class="flex flex-col justifiy-between items-center w-full  gap-3 ">
+    <div class="flex flex-col w-3/6 lg:w-2/5 md:w-3/6">
+      <label for="image-folder" class="text-left  text-md pb-2 text-gray-100">IMAGES PATH:</label>
+      <input class="flex inputs bg-gray-300  py-1 rounded-md pl-2 focus:outline-none" type="text" id="image-folder">
+    </div>
+    <!-- <div class="flex flex-col w-3/6">
+      <label for="prompt" class="text-left text-gray-100 text-md pb-2">PROMPT :</label>
+      <input class="flex inputs bg-gray-300  py-1 rounded-md pl-2 focus:outline-none" type="text" id="prompt">
+    </div> -->
+    <div class="flex   justify-content  items-center gap-4 w-3/6 lg:w-2/5 md:w-3/6 my-2">
+      <button class="flex btn justify-center rounded-md py-1 text-white w-2/6 font-bold  " id="start-button">Start</button>
+      <button class="flex btn justify-center rounded-md py-1 text-white w-2/6  font-bold  " id="print-button">Save</button>
+      <button class="flex btn justify-center rounded-md py-1 text-white w-2/6   font-bold  " id="next-button">Next</button>
+      <button class="flex btn justify-center rounded-md py-1 text-white w-2/6   font-bold  " id="clear-button">Clear</button>
+    </div>
+    <span id="generte_image" class="hide" style="color: white; text-Align:left">Generating Image ...</span>
+    <div id="image-container" class="image_container lg:w-2/5 md:w-3/6 sm:mb-10" >
+    <div id="loading"></div>
+    </div> 
+  </div>
+</div>
+    <script src="diffusion.js"></script>
+</body>
+</html>
