@@ -255,7 +255,7 @@ startButton.addEventListener("click", async () => {
     startButton.textContent = "Start";
     loader.classList.remove("display");
     generte_image.classList.remove("show");
-      errorss.innerHTML = "Please fill the field";
+      errorss.innerHTML = "Please Fill the Field";
       errorss.classList.add("show_errrors");
       setTimeout(function () {
         errorss.classList.remove("show_errrors");

@@ -172,25 +172,30 @@
         display: flex;
       }
       #errors{
-        display: flex;
+        display: none;
         /* margin: auto; */
         width: 300px;
-        background: linear-gradient(90deg, hsla(236, 100%, 8%, 1) 0%, hsla(211, 100%, 28%, 1) 100%);
+        /* background: linear-gradient(90deg, hsla(236, 100%, 8%, 1) 0%, hsla(211, 100%, 28%, 1) 100%);
         background: -moz-linear-gradient(90deg, hsla(236, 100%, 8%, 1) 0%, hsla(211, 100%, 28%, 1) 100%);
         background: -webkit-linear-gradient(90deg, hsla(236, 100%, 8%, 1) 0%, hsla(211, 100%, 28%, 1) 100%);
-        filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#000328", endColorstr="#00458E", GradientType=1 );
+        filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#000328", endColorstr="#00458E", GradientType=1 ); */
         z-index: 1;
-        color: rgb(240, 50, 50);
+        color: rgb(225 119 119);
         padding: 10px;
-        border-radius: 10px;
+        border-radius: 7px 7px 7px 7px;
         position: absolute;
-        right: 0px;
-        top: 0px;
-        /* border:1px solid white; */
+        right: 10px;
+        top: -55px;
+        height: 51px;
+        font-size: -20px;
+        background-color: rgb(13, 13, 14);
+        border:1px solid white;
+        box-shadow: -2px 2px 5px white;
+        transition: top 0.9s ease-in-out, opacity 0.3s ease-in-out;
       }
       #errors.show_errrors{
         display: flex;
-       
+        top: 10px ;
       }
       .close_btn{
         width: 36px;
