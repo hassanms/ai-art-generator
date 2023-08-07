@@ -3,14 +3,16 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>AI Art Generator</title>
     <!-- <script src="./desgin.c"></script> -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,400;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,400;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
     <style>
       body {
         font-family: sans-serif;
@@ -21,6 +23,7 @@
         height: auto;
         width: 100%;
         background: rgb(13, 13, 14);
+        background-image: url("./flex images/White-dots-snow-effect-overlay-.capcut-trending-white-dots.-__.gif");
       }
       #art_image{
         width: 60vh;
@@ -76,13 +79,11 @@
       .inputs{
         background: rgb(13, 13, 14);
         color: rgb(13, 13, 14);
-        box-shadow: 0px 0px 5px white;
+        box-shadow: 0px 0px 4px white;
       }
       .btn{
         background-color: (#3bb4f2);
-        border: 1px solid whitesmoke;
         box-shadow: 0px 0px 4px white;
-
       }
       .btn:hover{
         background-color: white;
@@ -104,12 +105,13 @@
         border-radius: 10px;
       }
       .image_container{
-        border: 1px solid white;
         position: relative;
         height: 55vh;
         width: 50vw;
         border-radius: 10px;
         z-index: -1;
+        box-shadow: 0px 0px 4px white;
+        background-color: rgb(13, 13, 14);
       }
       .setting{
         width: 100%;
@@ -131,11 +133,7 @@
         display: none;
         flex-direction: column;
         background-color: rgb(13, 13, 14);
-        /* background: linear-gradient(90deg, hsla(236, 100%, 8%, 1) 0%, hsla(211, 100%, 28%, 1) 100%);
-        background: -moz-linear-gradient(90deg, hsla(236, 100%, 8%, 1) 0%, hsla(211, 100%, 28%, 1) 100%);
-        background: -webkit-linear-gradient(90deg, hsla(236, 100%, 8%, 1) 0%, hsla(211, 100%, 28%, 1) 100%);
-        filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#000328", endColorstr="#00458E", GradientType=1 ); */
-        border-radius: 20px 0px 0px 20px;
+        border-radius: 10px 0px 0px 10px;
         padding: 10px 50px;
       }
       .display{
@@ -146,21 +144,12 @@
         height:calc(100% - 13vh);
         flex-direction: column;
         background-color: rgb(13, 13, 14);
-        /* background: linear-gradient(90deg, hsla(236, 100%, 8%, 1) 0%, hsla(211, 100%, 28%, 1) 100%);
-        background: -moz-linear-gradient(90deg, hsla(236, 100%, 8%, 1) 0%, hsla(211, 100%, 28%, 1) 100%);
-        background: -webkit-linear-gradient(90deg, hsla(236, 100%, 8%, 1) 0%, hsla(211, 100%, 28%, 1) 100%);
-        filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#000328", endColorstr="#00458E", GradientType=1 ); */
-        border-radius: 20px 0px 0px 20px;
+        box-shadow: 0px 0px 4px white;
+        z-index: 1;
+        border-radius: 10px 0px 0px 10px;
         padding: 20px 10px;
-        border: 1px solid white;
-
       }
       .api_setting{
-
-        /* background: linear-gradient(90deg, hsla(236, 100%, 8%, 1) 0%, hsla(211, 100%, 28%, 1) 100%);
-        background: -moz-linear-gradient(90deg, hsla(236, 100%, 8%, 1) 0%, hsla(211, 100%, 28%, 1) 100%);
-        background: -webkit-linear-gradient(90deg, hsla(236, 100%, 8%, 1) 0%, hsla(211, 100%, 28%, 1) 100%);
-        filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#000328", endColorstr="#00458E", GradientType=1 ); */
         border-radius: 10px;
         padding: 0 10px;
         margin-bottom: 10px;
@@ -172,13 +161,8 @@
         display: flex;
       }
       #errors{
-        display: none;
-        /* margin: auto; */
+        display: flex;
         width: 300px;
-        /* background: linear-gradient(90deg, hsla(236, 100%, 8%, 1) 0%, hsla(211, 100%, 28%, 1) 100%);
-        background: -moz-linear-gradient(90deg, hsla(236, 100%, 8%, 1) 0%, hsla(211, 100%, 28%, 1) 100%);
-        background: -webkit-linear-gradient(90deg, hsla(236, 100%, 8%, 1) 0%, hsla(211, 100%, 28%, 1) 100%);
-        filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#000328", endColorstr="#00458E", GradientType=1 ); */
         z-index: 1;
         color: rgb(225 119 119);
         padding: 10px;
@@ -189,8 +173,7 @@
         height: 51px;
         font-size: -20px;
         background-color: rgb(13, 13, 14);
-        border:1px solid white;
-        box-shadow: -2px 2px 5px white;
+        box-shadow: 0px 0px 4px white;
         transition: top 0.9s ease-in-out, opacity 0.3s ease-in-out;
       }
       #errors.show_errrors{
@@ -209,28 +192,53 @@
         top: 2.5px;
         left: 17px;
       }
+      .font_family{
+        font-family: 'Roboto';
+      }
+      .right_flex img{
+        border: 1px solid white;
+        border-radius: 10px;
+        height: 180px;
+      }
+      .flex_image{
+        box-shadow: 0px 0px 5px white;
+      }
+      /* #myVideo {
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        min-width: 100%; 
+        /* min-height: 100%; */
+        /* width: 100%;
+        height: 100vh;
+        z-index: -1; */
+      /* } */ 
     </style>
 </head>
 <body>
+    <!-- <video autoplay muted loop id="myVideo">
+      <source src="White dots snow effect overlay .capcut trending white dots. 🔥🌍.mp4" type="video/mp4">
+      Your browser does not support HTML5 video.
+    </video> -->
     <div id="main">
     <div  id="errors">slakdjf</div>
     <div class="text-4xl py-3 text-white heading">
-      <p class="border border-white shadow-md shadow-white">Create Amazing Artworks with Artificial Intelligence.</p>
+      <p class="font_family" style="box-shadow: 0px 0px 4px white;">Create Amazing Artworks with Artificial Intelligence</p>
     </div> 
     
     <div class="setting ">
       <div class="text-white w-22 h-22 shadow-md px-1 rounded-md cursor-pointer relative"  style="transform: scale(1.5); transform: rotate(90deg); font-size: 30px;"  id="setting">
         |||
       </div>
-      <div class="sidesetting w-1/4 border transition-all delay-150 border-white" id="show">
+      <div class="sidesetting w-1/4 transition-all delay-150 " id="show">
         <div class="flex justify-between api_setting items-center">
-        <h2 class="text-white text-lg font-bold py-3">CHANGE API KEY</h2>
+        <h2 class="text-white text-lg font-bold py-3 font_family">CHANGE API KEY</h2>
         <div class="text-white close_btn px-1 cursor-pointer rounded-md text-sm" style="transform: scale(1.5); transform: rotate(40deg); font-size: 25px;" id="close">|</div>
         </div>
         <div class="flex flex-col gap-10 p-10">
           <div class="flex flex-col">
-        <label for="prompt" class="text-left text-gray-100 text-md pb-2">API KEY :</label>
-      <input id="apikey" class="flex inputs  bg-gray-300  py-1 rounded-md pl-2 w-full focus:outline-none" placeholder="Enter api key" type="text" >
+        <label for="prompt" class="text-left text-gray-100 text-md pb-2 font_family">API KEY :</label>
+      <input id="apikey" style="background-color: #ece7e7;" class="flex inputs py-1 rounded-md pl-2 w-full focus:outline-none" placeholder="Enter api key" type="text" >
           </div>
       <button id="apibtn" class="flex btn justify-center rounded-md py-1 text-white w-full font-bold   " >Start</button>  
     </div>
@@ -239,24 +247,40 @@
     </div>
     <div class="flex flex-col justifiy-between items-center w-full  gap-3 ">
     <div class="flex flex-col w-3/6 lg:w-2/5 md:w-3/6">
-      <label for="image-folder" class="text-left  text-md pb-2 text-gray-100">IMAGES PATH:</label>
-      <input class="flex inputs bg-gray-300  py-1 rounded-md pl-2 focus:outline-none" type="text" id="image-folder">
+      <label for="image-folder" class="text-left  text-md pb-2 text-gray-100 font_family">IMAGES PATH:</label>
+      <input class="flex inputs py-1 rounded-md pl-2 focus:outline-none" style="background-color: #ece7e7;" type="text" id="image-folder">
     </div>
     <!-- <div class="flex flex-col w-3/6">
       <label for="prompt" class="text-left text-gray-100 text-md pb-2">PROMPT :</label>
       <input class="flex inputs bg-gray-300  py-1 rounded-md pl-2 focus:outline-none" type="text" id="prompt">
     </div> -->
     <div class="flex   justify-content  items-center gap-4 w-3/6 lg:w-2/5 md:w-3/6 my-2">
-      <button class="flex btn justify-center rounded-md py-1 text-white w-2/6 font-bold  " id="start-button">Start</button>
-      <button class="flex btn justify-center rounded-md py-1 text-white w-2/6  font-bold  " id="print-button">Save</button>
-      <button class="flex btn justify-center rounded-md py-1 text-white w-2/6   font-bold  " id="next-button">Next</button>
-      <button class="flex btn justify-center rounded-md py-1 text-white w-2/6   font-bold  " id="clear-button">Clear</button>
+      <button class="flex btn justify-center rounded-md py-1 text-white w-2/6 font-bold font_family  " id="start-button">Start</button>
+      <button class="flex btn justify-center rounded-md py-1 text-white w-2/6  font-bold font_family  " id="print-button">Save</button>
+      <button class="flex btn justify-center rounded-md py-1 text-white w-2/6   font-bold font_family  " id="next-button">Next</button>
+      <button class="flex btn justify-center rounded-md py-1 text-white w-2/6   font-bold font_family  " id="clear-button">Clear</button>
     </div>
-    <span id="generte_image" class="hide" style="color: white; text-Align:left">Generating Image ...</span>
+    <span id="generte_image" class="hide" style="color: white; text-Align:left font_family">Generating Image ...</span>
     <div id="image-container" class="image_container lg:w-2/5 md:w-3/6 sm:mb-10" >
     <div id="loading"></div>
     </div> 
   </div>
+</div>
+<!-- Right Flex -->
+<div class="absolute lg:pb-10 sm:right-[10px] sm:top-[200px] lg:top-[160px] lg:right-[32px] sm:w-[22%] lg:w-[23%] gap-[10px] flex flex-col  visible ">
+  <img class="w-[100%] rounded-[10px] flex_image" src="flex images/1-min.jpg" alt="">
+  <img class="w-[100%] rounded-[10px] flex_image" src="flex images/9-min.jpg" alt="">
+  <img class="w-[100%] rounded-[10px] flex_image" src="flex images/10-min.jpg" alt="">
+  <img class="w-[100%] rounded-[10px] flex_image" src="flex images/13-min.jpg" alt="">
+
+</div>
+<!-- Left Flex -->
+<div class="absolute lg:pb-10 sm:left-[10px]  sm:top-[200px] lg:top-[160px] lg:left-[32px] sm:w-[22%] lg:w-[23%] gap-[10px] flex flex-col  visible ">
+  <img class="w-[100%] rounded-[10px] flex_image" src="flex images/11-min.jpg" alt="">
+  <img class="w-[100%] rounded-[10px] flex_image" src="flex images/4-min.jpg" alt="">
+  <img class="w-[100%] rounded-[10px] flex_image" src="flex images/3-min.jpg" alt="">
+  <img class="w-[100%] rounded-[10px] flex_image" src="flex images/14-min.jpg" alt="">
+
 </div>
     <script src="diffusion.js"></script>
 </body>

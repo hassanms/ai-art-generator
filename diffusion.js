@@ -3,14 +3,15 @@ const path = require("path");
 const Buffer = require("buffer").Buffer;
 const { converBase64ToImage } = require("convert-base64-to-image");
 const sharp = require("sharp");
+const sizeOf = require("image-size");
 
 
 // console.log(apikeys);
 
 const engineId = "stable-diffusion-v1-5";
 const apiHost = "https://api.stability.ai";
-let apiKey = "sk-kS1IaIpNbn8Ou6q7nHoOfqllMLM5FxcUxPKsTGLut8P7vzKa";
-// let apiKey = 'sk-PXVyDAnN868qT2b2UryQptY10WKMLh8nAsZ8fjEOMnFGdiX6';
+let apiKey = "sk-R6qFH1iNMDyImt5xcpGplSWCTfDBTecBJpTlczd4gjEc8Ji6";
+// let apiKey = 'sk-aJHMApVMVROaWgqcU7w7FpusOWI49ugz2re4Rw1BycRdAdVK';
 
 if (!apiKey) throw new Error("Missing Stability API key.");
 let abortController = new AbortController();
@@ -23,21 +24,47 @@ let signal = abortController.signal;
 // Assign a new AbortController for the latest fetch to our useRef variable
 // abortController.current = new AbortController()
 // const { signal } = abortController.current
+const toastMessage = (message)=>{
+  errorss.innerHTML = message;
+  errorss.classList.add("show_errrors");
+  setTimeout(function () {
+    errorss.classList.remove("show_errrors");
+  }, 2000);
 
+}
 async function generateImage( imagePath) {
   const base64Regex = /^data:image\/(png|jpeg|jpg);base64,/;
-  if (base64Regex.test(lastImageFromApi)) {
-    const initImageFile = new File(
-      [await fetch(imagePath).then((response) => response.blob())],
-      "init_image.png",
-      { type: "image/png" }
-    );
+  let imageBuffer;
+
+  if (base64Regex.test(imagePath)) {
+    // If the input is already in base64 format, convert it to a buffer
+    const base64Data = imagePath.replace(base64Regex, "");
+    imageBuffer = Buffer.from(base64Data, "base64");
+  } else {
+    // If the input is an image file path, resize it to meet the pixel count limit
+    const { width, height } = sizeOf(imagePath);
+    const maxPixelCount = 1048576; // 1024 * 1024 = 1,048,576
+    const currentPixelCount = width * height;
+
+    // Calculate the scale to fit the image within the pixel count limit
+    const scale = Math.sqrt(maxPixelCount / currentPixelCount);
+    const targetWidth = Math.floor(width * scale);
+    const targetHeight = Math.floor(height * scale);
+
+    // Set maximum width and height to comply with pixel count limit
+    const maxWidth = 512;
+    const maxHeight = 512;
+    const finalWidth = Math.min(targetWidth, maxWidth);
+    const finalHeight = Math.min(targetHeight, maxHeight);
+
+    const outputBuffer = await sharp(imagePath)
+      .resize(finalWidth, finalHeight)
+      .toBuffer();
+    imageBuffer = Buffer.from(outputBuffer);
   }
-  const initImageFile = new File(
-    [await fetch(imagePath).then((response) => response.blob())],
-    "init_image.png",
-    { type: "image/png" }
-  );
+
+  const initImageFile = new File([imageBuffer], "init_image.png", { type: "image/png" });
+
 
   
   const formData = new FormData();
@@ -91,14 +118,9 @@ const getNextImage = () => {
   // }
   if (imagePath === undefined) {
     // alert("Images Not Found");
-    errorss.innerHTML = "Images Not Found";
-      errorss.classList.add("show_errrors");
+      toastMessage("Images Not Found")
       startButton.textContent = "Start";
       generte_image.classList.remove("show");
-
-      setTimeout(function () {
-        errorss.classList.remove("show_errrors");
-      }, 2000);
   }
   return imagePath;
 };
@@ -139,14 +161,8 @@ const loops = async () => {
 const printImage = () => {
   const currentImage = imageContainer.querySelector("img");
   if (!currentImage) {
-    // alert("No image to print.");
-    errorss.innerHTML = "No image to print";
-    errorss.classList.add("show_errrors");
+    toastMessage('No image to print')
     startButton.textContent = "Start";
-    setTimeout(function () {
-      errorss.classList.remove("show_errrors");
-    }, 2000);
-    
     return;
   }
   const imgWindow = window.open("", "Print");
@@ -215,7 +231,7 @@ nextButton.addEventListener("click", async () => {
     startButton.textContent = "Stop"
 
   }
-  if(images !== ""){
+  if(images !== "" || !imagePath){
 
     const outputBuffer = await sharp(imagePath).resize(512, 512).toBuffer();
       
